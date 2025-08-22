@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/dist/lunar.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCare - Chăm sóc tinh thần</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Logo */
+        .logo {
+            display: inline-block;
+            height: 30px;
+            width: auto;
+            margin: 0 8px 0 0;
+        }
+
+        /* Brand row */
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .header .brand h1 {
+            margin: 0;
+        }
+
+        .content {
+            padding: 30px 20px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Home Screen */
+        .welcome {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .welcome h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .welcome p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .features {
+            display: grid;
+            gap: 15px;
+        }
+
+        .feature {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .feature:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .feature-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .feature h3 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        /* Mood Tracker */
+        .mood-section {
+            margin: 20px 0;
+        }
+
+        .mood-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .mood-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa726, #66bb6a);
+            outline: none;
+            margin: 20px 0;
+        }
+
+        .mood-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #667eea;
+            cursor: pointer;
+        }
+
+        .mood-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .mood-display {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 15px 0;
+        }
+
+        .mood-emoji {
+            font-size: 50px;
+            margin: 10px 0;
+        }
+
+        /* Breathing Exercise */
+        .breathing {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .breathing-circle {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #667eea;
+            transition: all 0.5s ease;
+        }
+
+        .breathing-circle.inhale {
+            transform: scale(1.3);
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .breathing-circle.exhale {
+            transform: scale(0.7);
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .breathing-instruction {
+            font-size: 18px;
+            color: #667eea;
+            margin: 20px 0;
+            min-height: 25px;
+        }
+
+        /* Quick Tips */
+        .tips {
+            margin: 20px 0;
+        }
+
+        .tip {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .tip h4 {
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .tip p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-small {
+            width: auto;
+            padding: 8px 15px;
+            font-size: 12px;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        /* Back button */
+        .back-btn {
+            background: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: #cbd5e0;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .app {
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+            }
+            
+            body {
+                padding: 0;
+            }
+        }
+
+        /* Simple animations */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .support-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #f59e0b;
+        }
+
+        .support-box h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .support-box p {
+            color: #a16207;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .hotline {
+            font-size: 18px;
+            font-weight: bold;
+            color: #dc2626;
+            margin: 10px 0;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .activity-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .activity-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .activity-card h4 {
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .activity-card p {
+            color: #666;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .activity-detail {
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f0f9ff, #ecfdf5);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .activity-content h4 {
+            color: #1e40af;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .activity-timer {
+            margin: 20px 0;
+        }
+
+        .timer-display {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 15px 0;
+        }
+
+        /* Mindfulness Styles */
+        .mindfulness-selector {
+            margin: 20px 0;
+        }
+
+        .mindfulness-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+
+        .mindfulness-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .mindfulness-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .mindfulness-card h4 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .mindfulness-card p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .mindfulness-practice {
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .mindfulness-circle {
+            width: 120px;
+            height: 120px;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
+        }
+
+        .mindfulness-circle.active {
+            transform: scale(1.1);
+            background: rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .mindfulness-instruction {
+            font-size: 16px;
+            color: #1e40af;
+            margin: 20px 0;
+            line-height: 1.5;
+            min-height: 50px;
+        }
+
+        .guide-description {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #1e40af;
+            line-height: 1.5;
+        }
+
+        .guide-section {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .guide-section h5 {
+            color: #333;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .guide-section ul, .guide-section ol {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            padding-left: 20px;
+        }
+
+        .guide-section li {
+            margin: 8px 0;
+        }
+
+        .guide-controls {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .mindfulness-session {
+            text-align: center;
+        }
+
+        .progress {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .stat {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .date-display {
+            margin: 15px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .solar-date {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .lunar-date {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            <div class="brand">
+                <img src="logo.png" alt="MindCare logo" class="logo" loading="lazy">
+                <h1>MindCare</h1>
+            </div>
+            <p>Chăm sóc sức khoẻ tinh thần đơn giản</p>
+        </div>
+
+        <div class="content">
+            <!-- Home Screen -->
+            <div class="screen active" id="home">
+                <div class="welcome">
+                    <h2>Xin chào! 👋</h2>
+                    <div class="date-display">
+                        <div class="solar-date" id="solarDate"></div>
+                        <div class="lunar-date" id="lunarDate"></div>
+                    </div>
+                    <p>Hôm nay bạn cảm thấy thế nào?</p>
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number" id="moodCount">0</div>
+                        <div class="stat-label">Check-ins</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="lastMood">😊</div>
+                        <div class="stat-label">Mood gần nhất</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="breathCount">0</div>
+                        <div class="stat-label">Lần thở</div>
+                    </div>
+                </div>
+
+                <div class="features">
+                    <div class="feature" onclick="showScreen('mood')">
+                        <span class="feature-icon">💭</span>
+                        <h3>Check-in Cảm Xúc</h3>
+                        <p>Đánh giá tâm trạng hôm nay</p>
+                    </div>
+
+                    <div class="feature" onclick="showScreen('breathing')">
+                        <span class="feature-icon">🫁</span>
+                        <h3>Thở Thư Giãn</h3>
+                        <p>Bài tập thở giảm căng thẳng</p>
+                    </div>
+
+                    <div class="feature" onclick="showScreen('activities')">
+                        <span class="feature-icon">🏃</span>
+                        <h3>Hoạt Động 5 Phút</h3>
+                        <p>Gợi ý việc nhỏ cải thiện mood</p>
+                    </div>
+
+                    <div class="feature" onclick="showScreen('mindfulness')">
+                        <span class="feature-icon">🧘</span>
+                        <h3>Mindfulness Mini</h3>
+                        <p>Bài tập chánh niệm ngắn 1-2 phút</p>
+                    </div>
+
+                    <div class="feature" onclick="showScreen('tips')">
+                        <span class="feature-icon">💡</span>
+                        <h3>Mẹo Hữu Ích</h3>
+                        <p>Lời khuyên chăm sóc tinh thần</p>
+                    </div>
+
+                    <div class="feature" onclick="showScreen('support')">
+                        <span class="feature-icon">🤝</span>
+                        <h3>Hỗ Trợ Khẩn Cấp</h3>
+                        <p>Liên hệ khi cần giúp đỡ</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mood Screen -->
+            <div class="screen" id="mood">
+                <button class="back-btn" onclick="showScreen('home')">← Quay lại</button>
+                
+                <div class="mood-section">
+                    <h3>Bạn cảm thấy thế nào hôm nay?</h3>
+                    
+                    <div class="mood-emoji" id="moodEmoji">😐</div>
+                    <div class="mood-display" id="moodText">Bình thường</div>
+                    
+                    <input type="range" min="1" max="5" value="3" class="mood-slider" id="moodSlider">
+                    <div class="mood-labels">
+                        <span>😢 Buồn</span>
+                        <span>😊 Vui</span>
+                    </div>
+                    
+                    <button class="btn" onclick="saveMood()">Lưu Cảm Xúc</button>
+                </div>
+            </div>
+
+            <!-- Breathing Screen -->
+            <!-- Breathing Screen -->
+            <div class="screen" id="breathing">
+                <button class="back-btn" onclick="showScreen('home')">← Quay lại</button>
+                
+                <div class="breathing">
+                    <h3>Bài Tập Thở Thư Giãn 🫁</h3>
+                    
+                    <div class="guide-description">
+                        <strong>Kỹ thuật thở 4-4-4:</strong> Hít vào 4 giây → Giữ 4 giây → Thở ra 4 giây
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h5>🎯 Lợi ích của bài tập thở:</h5>
+                        <ul style="font-size: 13px; color: #666; line-height: 1.5;">
+                            <li>Giảm stress và lo âu ngay lập tức</li>
+                            <li>Làm chậm nhịp tim, hạ huyết áp</li>
+                            <li>Cải thiện giấc ngủ và tập trung</li>
+                            <li>Kích hoạt hệ thần kinh phó giao cảm (thư giãn)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h5>📋 Cách thực hiện:</h5>
+                        <ol style="font-size: 13px; color: #666; line-height: 1.5;">
+                            <li>Ngồi thẳng lưng, thả lỏng vai</li>
+                            <li>Đặt một tay lên ngực, một tay lên bụng</li>
+                            <li>Thở bằng mũi, để bụng nở ra (không ngực)</li>
+                            <li>Theo dõi vòng tròn và hướng dẫn</li>
+                            <li>Thực hiện ít nhất 5-10 chu kỳ thở</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="breathing-circle" id="breathingCircle">
+                        <span>Sẵn sàng</span>
+                    </div>
+                    
+                    <div class="breathing-instruction" id="breathingText">Nhấn bắt đầu để thực hành</div>
+                    
+                    <button class="btn" id="breathingBtn" onclick="startBreathing()">Bắt Đầu</button>
+                </div>
+            </div>
+
+            <!-- 5-Minute Activities Screen -->
+            <div class="screen" id="activities">
+                <button class="back-btn" onclick="showScreen('home')">← Quay lại</button>
+                
+                <div class="activities">
+                    <h3>Hoạt Động 5 Phút 🏃</h3>
+                    <p style="color: #666; font-size: 14px; margin: 10px 0;">Chọn một hoạt động nhanh để cải thiện tâm trạng:</p>
+                    
+                    <div class="activity-grid">
+                        <div class="activity-card" onclick="startActivity('stretch')">
+                            <div class="activity-icon">🤸</div>
+                            <h4>Giãn Cơ</h4>
+                            <p>Các động tác giãn cơ đơn giản</p>
+                        </div>
+                        
+                        <div class="activity-card" onclick="startActivity('walk')">
+                            <div class="activity-icon">🚶</div>
+                            <h4>Đi Bộ</h4>
+                            <p>Ra ngoài hít thở không khí trong lành</p>
+                        </div>
+                        
+                        <div class="activity-card" onclick="startActivity('water')">
+                            <div class="activity-icon">💧</div>
+                            <h4>Uống Nước</h4>
+                            <p>Bổ sung nước và ăn nhẹ lành mạnh</p>
+                        </div>
+                        
+                        <div class="activity-card" onclick="startActivity('music')">
+                            <div class="activity-icon">🎵</div>
+                            <h4>Nghe Nhạc</h4>
+                            <p>Phát nhạc yêu thích và thư giãn</p>
+                        </div>
+                        
+                        <div class="activity-card" onclick="startActivity('tidy')">
+                            <div class="activity-icon">🧹</div>
+                            <h4>Dọn Dẹp</h4>
+                            <p>Sắp xếp không gian xung quanh</p>
+                        </div>
+                        
+                        <div class="activity-card" onclick="startActivity('call')">
+                            <div class="activity-icon">📞</div>
+                            <h4>Gọi Điện</h4>
+                            <p>Liên lạc với người thân yêu</p>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-detail" id="activityDetail" style="display: none;">
+                        <div class="activity-content">
+                            <h4 id="activityTitle"></h4>
+                            <div id="activityInstructions"></div>
+                            <div class="activity-timer">
+                                <div class="timer-display" id="activityTimer">5:00</div>
+                                <button class="btn" id="activityBtn" onclick="startActivityTimer()">Bắt Đầu</button>
+                                <button class="btn btn-secondary" onclick="completeActivity()">Hoàn Thành</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mindfulness Mini Screen -->
+            <div class="screen" id="mindfulness">
+                <button class="back-btn" onclick="showScreen('home')">← Quay lại</button>
+                
+                <div class="mindfulness">
+                    <h3>Mindfulness Mini 🧘</h3>
+                    <p style="color: #666; font-size: 14px; margin: 10px 0;">Bài tập chánh niệm ngắn để tập trung và thư giãn:</p>
+                    
+                    <div class="mindfulness-selector">
+                        <div class="mindfulness-card" onclick="startMindfulness('breath')">
+                            <div class="mindfulness-icon">🫁</div>
+                            <h4>Quan Sát Hơi Thở</h4>
+                            <p>Tập trung vào nhịp thở tự nhiên (2 phút)</p>
+                        </div>
+                        
+                        <div class="mindfulness-card" onclick="startMindfulness('body')">
+                            <div class="mindfulness-icon">🧍</div>
+                            <h4>Quét Cơ Thể</h4>
+                            <p>Cảm nhận từng bộ phận cơ thể (2 phút)</p>
+                        </div>
+                        
+                        <div class="mindfulness-card" onclick="startMindfulness('senses')">
+                            <div class="mindfulness-icon">👁️</div>
+                            <h4>5-4-3-2-1</h4>
+                            <p>Kỹ thuật 5 giác quan (1 phút)</p>
+                        </div>
+                        
+                        <div class="mindfulness-card" onclick="startMindfulness('gratitude')">
+                            <div class="mindfulness-icon">🙏</div>
+                            <h4>Biết Ơn</h4>
+                            <p>Nghĩ về những điều tích cực (1 phút)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mindfulness-practice" id="mindfulnessPractice" style="display: none;">
+                        <!-- Guide Screen -->
+                        <div class="mindfulness-guide" id="mindfulnessGuide">
+                            <h4 id="guideTitle"></h4>
+                            <div class="guide-description" id="guideDescription"></div>
+                            
+                            <div class="guide-section">
+                                <h5>🎯 Lợi ích:</h5>
+                                <ul id="guideBenefits"></ul>
+                            </div>
+                            
+                            <div class="guide-section">
+                                <h5>📋 Cách thực hiện:</h5>
+                                <ol id="guideSteps"></ol>
+                            </div>
+                            
+                            <div class="guide-controls">
+                                <button class="btn" onclick="startMindfulnessPractice()">Bắt Đầu Thực Hành</button>
+                                <button class="btn btn-secondary" onclick="backToMindfulnessMenu()">Quay Lại</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Practice Screen -->
+                        <div class="mindfulness-session" id="mindfulnessSession" style="display: none;">
+                            <h4 id="sessionTitle"></h4>
+                            <div class="mindfulness-circle" id="mindfulnessCircle">
+                                <div class="timer-display" id="mindfulnessTimer">2:00</div>
+                            </div>
+                            <div class="mindfulness-instruction" id="mindfulnessInstruction"></div>
+                            <div class="mindfulness-controls">
+                                <button class="btn" id="mindfulnessBtn" onclick="startMindfulnessTimer()">Bắt Đầu</button>
+                                <button class="btn btn-secondary" onclick="endMindfulness()">Kết Thúc</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Screen -->
+            <div class="screen" id="tips">
+                <button class="back-btn" onclick="showScreen('home')">← Quay lại</button>
+                
+                <div class="tips">
+                    <h3>Mẹo Chăm Sóc Tinh Thần 💡</h3>
+                    
+                    <div class="tip">
+                        <h4>🌅 Bắt đầu ngày tích cực</h4>
+                        <p>Dành 5 phút mỗi sáng để suy nghĩ về 3 điều bạn biết ơn.</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <h4>🚶 Vận động nhẹ nhàng</h4>
+                        <p>Đi bộ 10-15 phút giúp cải thiện tâm trạng và giảm căng thẳng.</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <h4>📱 Giới hạn mạng xã hội</h4>
+                        <p>Tránh lướt điện thoại trước khi ngủ ít nhất 1 tiếng.</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <h4>🫂 Kết nối với người khác</h4>
+                        <p>Gọi điện hoặc nhắn tin với bạn bè, gia đình ít nhất mỗi ngày.</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <h4>😴 Ngủ đủ giấc</h4>
+                        <p>7-9 tiếng ngủ mỗi đêm để não bộ và cơ thể có thể phục hồi.</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <h4>🧘 Thực hành chánh niệm</h4>
+                        <p>Dành vài phút mỗi ngày để tập trung vào hơi thở và cảm nhận hiện tại.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Screen -->
+            <div class="screen" id="support">
+                <button class="back-btn" onclick="showScreen('home')">← Quay lại</button>
+                
+                <div class="support-box">
+                  <h3>🤝 Hỗ Trợ Khẩn Cấp</h3>
+                  <p>Nếu bạn đang có suy nghĩ tự làm hại bản thân hoặc có nguy cơ khẩn cấp:</p>
+                  <div class="hotline">📞 115 (Cấp cứu Y tế toàn quốc)</div>
+                  <div class="hotline">📞 1900 2827</div>
+                  <div class="hotline">📞 1900 6923</div>
+                  <p style="font-size:13px; color:#6b7280; margin-top:8px;">Bệnh viện Đại học Y Dược TP. Hồ Chí Minh: 215 Hồng Bàng, Phường Chợ Lớn, TP. Hồ Chí Minh · Website: www.bvdaihoc.com.vn</p>
+                </div>
+                
+                <div class="tip">
+                    <h4>🏥 Khi nào nên tìm chuyên gia?</h4>
+                    <p>• Cảm thấy buồn, lo âu kéo dài hơn 2 tuần<br>
+                       • Mất khả năng làm việc, sinh hoạt bình thường<br>
+                       • Có suy nghĩ tự làm hại bản thân<br>
+                       • Thay đổi hành vi bất thường</p>
+                </div>
+                
+                <div class="tip">
+                    <h4>🌐 Nguồn hỗ trợ trực tuyến</h4>
+                    <p>• Trang web chính thức BV ĐHYD TPHCM: <strong>www.bvdaihoc.com.vn</strong><br>
+                       • Đặt lịch khám: Ứng dụng “UMC Care”</p>
+                </div>
+
+                <div style="background: #f0f9ff; padding: 15px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #3b82f6;">
+                    <p style="color: #1e40af; font-size: 13px; line-height: 1.5;">
+                        <strong>Lưu ý:</strong> Ứng dụng này chỉ mang tính chất hỗ trợ và không thay thế cho việc điều trị y tế chuyên nghiệp. 
+                        Khi có vấn đề nghiêm trọng, hãy tìm kiếm sự giúp đỡ từ chuyên gia.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // App State
+        let appData = {
+            moods: [],
+            breathingSessions: 0,
+            activitiesCompleted: 0,
+            mindfulnessCompleted: 0,
+            daysUsed: new Set(),
+            firstVisit: null
+        };
+
+        // Load data from memory
+        function loadData() {
+            updateDateDisplay();
+            updateStats();
+        }
+
+        // Update home screen stats
+        function updateStats() {
+            // Hiển thị số lần check-in mood
+            document.getElementById('moodCount').textContent = appData.moods.length || 0;
+            
+            // Hiển thị số lần thở
+            document.getElementById('breathCount').textContent = appData.breathingSessions || 0;
+            
+            // Hiển thị mood gần nhất
+            if (appData.moods.length > 0) {
+                const lastMood = appData.moods[appData.moods.length - 1];
+                const moodEmojis = ['😢', '😟', '😐', '😊', '😁'];
+                document.getElementById('lastMood').textContent = moodEmojis[lastMood - 1];
+            } else {
+                document.getElementById('lastMood').textContent = '😐';
+            }
+        }
+
+        // Screen navigation
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Mood tracking
+        const moodSlider = document.getElementById('moodSlider');
+        const moodEmoji = document.getElementById('moodEmoji');
+        const moodText = document.getElementById('moodText');
+
+        const moodData = {
+            1: { emoji: '😢', text: 'Rất buồn' },
+            2: { emoji: '😟', text: 'Buồn' },
+            3: { emoji: '😐', text: 'Bình thường' },
+            4: { emoji: '😊', text: 'Vui' },
+            5: { emoji: '😁', text: 'Rất vui' }
+        };
+
+        if (moodSlider) {
+            moodSlider.addEventListener('input', function() {
+                const value = this.value;
+                moodEmoji.textContent = moodData[value].emoji;
+                moodText.textContent = moodData[value].text;
+            });
+        }
+
+        function saveMood() {
+            const mood = parseInt(moodSlider.value);
+            appData.moods.push(mood);
+            updateStats();
+            
+            // Show mood-specific advice
+            showMoodAdvice(mood);
+        }
+        function showMoodAdvice(mood) {
+            const moodAdvice = {
+                1: {
+                    title: "Tôi hiểu bạn đang khó khăn 💙",
+                    message: "Cảm xúc này sẽ qua đi. Hãy thử:\n• Gọi điện cho ai đó bạn tin tưởng\n• Viết ra những gì bạn cảm thấy\n• Đi dạo ngắn hoặc nghe nhạc êm dịu\n• Nhớ rằng bạn không đơn độc"
+                },
+                2: {
+                    title: "Hôm nay hơi khó khăn nhỉ 🤗",
+                    message: "Những ngày như thế này là bình thường. Hãy:\n• Cho phép bản thân cảm thấy buồn\n• Làm một việc nhỏ mang lại niềm vui\n• Uống trà ấm và nghỉ ngơi\n• Nhắc nhở bản thân về những điều tốt đẹp"
+                },
+                3: {
+                    title: "Một ngày bình thường 😌",
+                    message: "Ổn định cũng là một điều tuyệt vời! Hãy:\n• Biết ơn sự yên bình này\n• Làm điều gì đó tốt cho bản thân\n• Kết nối với bạn bè hoặc gia đình\n• Chuẩn bị cho một ngày mai tốt hơn"
+                },
+                4: {
+                    title: "Tâm trạng tích cực! 😊",
+                    message: "Thật tuyệt! Hãy tận hưởng cảm giác này:\n• Chia sẻ niềm vui với người khác\n• Làm điều gì đó sáng tạo\n• Ghi lại khoảnh khắc đẹp này\n• Lan tỏa năng lượng tích cực"
+                },
+                5: {
+                    title: "Bạn đang rạng rỡ! 🌟",
+                    message: "Năng lượng tuyệt vời! Hãy:\n• Tận dụng để làm những việc quan trọng\n• Giúp đỡ ai đó khác\n• Lập kế hoạch cho những điều thú vị\n• Nhớ rằng bạn xứng đáng với hạnh phúc này"
+                }
+            };
+
+            const advice = moodAdvice[mood];
+            
+            // Create and show popup
+            const popup = document.createElement('div');
+            popup.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+                    <div style="background: white; padding: 30px; border-radius: 20px; max-width: 350px; margin: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                        <h3 style="color: #333; margin-bottom: 15px; font-size: 18px;">${advice.title}</h3>
+                        <p style="color: #666; line-height: 1.6; white-space: pre-line; font-size: 14px; margin-bottom: 20px;">${advice.message}</p>
+                        <button onclick="closeMoodAdvice()" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 14px; font-weight: 600; cursor: pointer;">Cảm ơn!</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(popup);
+        }
+
+        function closeMoodAdvice() {
+            const popup = document.querySelector('[style*="position: fixed"]').parentElement;
+            document.body.removeChild(popup);
+            
+            // Show success message and return to home
+            const btn = document.querySelector('#mood .btn');
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Đã lưu!';
+            btn.style.background = '#22c55e';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+                showScreen('home');
+            }, 1500);
+        }
+
+        // Breathing exercise
+        let breathingActive = false;
+        let breathingTimeout;
+
+        function startBreathing() {
+            const btn = document.getElementById('breathingBtn');
+            const circle = document.getElementById('breathingCircle');
+            const text = document.getElementById('breathingText');
+
+            if (!breathingActive) {
+                breathingActive = true;
+                btn.textContent = 'Dừng';
+                runBreathingCycle();
+            } else {
+                stopBreathing();
+            }
+        }
+
+        function stopBreathing() {
+            breathingActive = false;
+            clearTimeout(breathingTimeout);
+            
+            // Count completed breathing session
+            if (appData.breathingSessions !== undefined) {
+                appData.breathingSessions++;
+                updateStats();
+            }
+            
+            const btn = document.getElementById('breathingBtn');
+            const circle = document.getElementById('breathingCircle');
+            const text = document.getElementById('breathingText');
+            
+            btn.textContent = 'Bắt Đầu';
+            circle.className = 'breathing-circle';
+            circle.innerHTML = '<span>Sẵn sàng</span>';
+            text.textContent = 'Nhấn bắt đầu để thực hành';
+        }
+
+        function runBreathingCycle() {
+            if (!breathingActive) return;
+
+            const circle = document.getElementById('breathingCircle');
+            const text = document.getElementById('breathingText');
+            
+            // Inhale phase
+            text.textContent = 'Hít vào...';
+            circle.className = 'breathing-circle inhale';
+            circle.innerHTML = '<span>Hít vào</span>';
+            
+            breathingTimeout = setTimeout(() => {
+                if (!breathingActive) return;
+                
+                // Hold phase
+                text.textContent = 'Giữ...';
+                circle.className = 'breathing-circle';
+                circle.innerHTML = '<span>Giữ</span>';
+                
+                breathingTimeout = setTimeout(() => {
+                    if (!breathingActive) return;
+                    
+                    // Exhale phase
+                    text.textContent = 'Thở ra...';
+                    circle.className = 'breathing-circle exhale';
+                    circle.innerHTML = '<span>Thở ra</span>';
+                    
+                    breathingTimeout = setTimeout(() => {
+                        if (breathingActive) {
+                            runBreathingCycle();
+                        }
+                    }, 4000);
+                }, 4000);
+            }, 4000);
+        }
+
+        // 5-Minute Activities
+        const activities = {
+            stretch: {
+                title: "Giãn Cơ 🤸",
+                instructions: [
+                    "Xoay cổ nhẹ nhàng 5 lần mỗi hướng",
+                    "Giơ tay lên cao, duỗi thẳng 10 giây",
+                    "Cúi người về phía trước, thả lỏng",
+                    "Xoay vai 10 lần về sau",
+                    "Duỗi chân, xoay cổ chân"
+                ]
+            },
+            walk: {
+                title: "Đi Bộ 🚶",
+                instructions: [
+                    "Ra ngoài hoặc đi bộ trong nhà",
+                    "Bước chậm rãi, tập trung vào từng bước",
+                    "Quan sát xung quanh bạn",
+                    "Hít thở sâu khi đi",
+                    "Cảm nhận sự chuyển động của cơ thể"
+                ]
+            },
+            water: {
+                title: "Uống Nước 💧",
+                instructions: [
+                    "Uống một cốc nước lớn từ từ",
+                    "Cảm nhận vị nước trên lưỡi",
+                    "Ăn một miếng trái cây hoặc hạt",
+                    "Ngồi yên và thưởng thức",
+                    "Cảm ơn cơ thể đã được bổ sung năng lượng"
+                ]
+            },
+            music: {
+                title: "Nghe Nhạc 🎵",
+                instructions: [
+                    "Chọn bài nhạc yêu thích",
+                    "Đóng mắt và lắng nghe",
+                    "Tập trung vào giai điệu",
+                    "Để cơ thể chuyển động theo nhạc",
+                    "Cảm nhận cảm xúc mà nhạc mang lại"
+                ]
+            },
+            tidy: {
+                title: "Dọn Dẹp 🧹",
+                instructions: [
+                    "Chọn một khu vực nhỏ để dọn",
+                    "Sắp xếp những vật dụng lộn xộn",
+                    "Lau chùi bề mặt bàn làm việc",
+                    "Vứt bỏ những thứ không cần thiết",
+                    "Cảm nhận sự sạch sẽ và gọn gàng"
+                ]
+            },
+            call: {
+                title: "Gọi Điện 📞",
+                instructions: [
+                    "Gọi cho người thân yêu",
+                    "Hỏi thăm sức khỏe của họ",
+                    "Chia sẻ một điều tốt đẹp hôm nay",
+                    "Lắng nghe một cách chân thành",
+                    "Nói lời yêu thương trước khi kết thúc"
+                ]
+            }
+        };
+
+        let activityTimer;
+        let activityTimeLeft;
+
+        function startActivity(type) {
+            const activity = activities[type];
+            document.getElementById('activityTitle').textContent = activity.title;
+            
+            let instructionsHTML = '<ul style="text-align: left; color: #666; font-size: 14px; line-height: 1.6;">';
+            activity.instructions.forEach(instruction => {
+                instructionsHTML += `<li style="margin: 8px 0;">${instruction}</li>`;
+            });
+            instructionsHTML += '</ul>';
+            
+            document.getElementById('activityInstructions').innerHTML = instructionsHTML;
+            document.getElementById('activityDetail').style.display = 'block';
+            document.getElementById('activityTimer').textContent = '5:00';
+            document.getElementById('activityBtn').textContent = 'Bắt Đầu';
+        }
+
+        function startActivityTimer() {
+            const btn = document.getElementById('activityBtn');
+            if (btn.textContent === 'Bắt Đầu') {
+                activityTimeLeft = 300; // 5 minutes
+                btn.textContent = 'Dừng';
+                runActivityTimer();
+            } else {
+                clearInterval(activityTimer);
+                btn.textContent = 'Bắt Đầu';
+            }
+        }
+
+        function runActivityTimer() {
+            activityTimer = setInterval(() => {
+                activityTimeLeft--;
+                const minutes = Math.floor(activityTimeLeft / 60);
+                const seconds = activityTimeLeft % 60;
+                document.getElementById('activityTimer').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (activityTimeLeft <= 0) {
+                    clearInterval(activityTimer);
+                    completeActivity();
+                }
+            }, 1000);
+        }
+
+        function completeActivity() {
+            clearInterval(activityTimer);
+            
+            // Count completed activity
+            appData.activitiesCompleted++;
+            updateStats();
+            
+            const btn = document.getElementById('activityBtn');
+            btn.textContent = '✅ Hoàn thành!';
+            btn.style.background = '#22c55e';
+            
+            setTimeout(() => {
+                btn.textContent = 'Bắt Đầu';
+                btn.style.background = '';
+                document.getElementById('activityDetail').style.display = 'none';
+                showScreen('home');
+            }, 2000);
+        }
+
+        // Mindfulness Mini
+        const mindfulnessExercises = {
+            breath: {
+                title: "Quan Sát Hơi Thở 🫁",
+                duration: 120,
+                description: "Tập trung vào hơi thở tự nhiên để làm dịu tâm trí và giảm căng thẳng",
+                benefits: [
+                    "Giảm lo âu và stress ngay lập tức",
+                    "Cải thiện khả năng tập trung", 
+                    "Làm chậm nhịp tim, hạ huyết áp",
+                    "Dễ làm, có thể thực hiện mọi lúc mọi nơi"
+                ],
+                guide: [
+                    "Ngồi thoải mái, lưng thẳng nhưng không cứng",
+                    "Đóng mắt nhẹ nhàng hoặc nhìn xuống đất", 
+                    "Không cố điều khiển hơi thở, để tự nhiên",
+                    "Đếm từ 1-10 theo mỗi nhịp thở ra",
+                    "Khi tâm trí lang thang → nhẹ nhàng quay về đếm từ 1"
+                ],
+                instructions: [
+                    "Bắt đầu quan sát hơi thở tự nhiên",
+                    "Cảm nhận không khí mát lạnh khi hít vào", 
+                    "Để ý không khí ấm khi thở ra",
+                    "Đếm từ 1-10, bắt đầu lại khi mất tập trung",
+                    "Kết thúc bằng 3 hơi thở sâu"
+                ]
+            },
+            body: {
+                title: "Quét Cơ Thể 🧍",
+                duration: 120,
+                description: "Cảm nhận từng bộ phận cơ thể để nhận biết căng thẳng và thả lỏng",
+                benefits: [
+                    "Phát hiện và giảm căng thẳng cơ bắp",
+                    "Cải thiện giấc ngủ, giảm đau nhức",
+                    "Tăng nhận thức về cơ thể", 
+                    "Giúp thư giãn sâu và phục hồi năng lượng"
+                ],
+                guide: [
+                    "Nằm hoặc ngồi thoải mái, đóng mắt",
+                    "Bắt đầu từ đỉnh đầu, di chuyển xuống từng bộ phận",
+                    "Dành 10-15 giây cho mỗi vùng cơ thể",
+                    "Chỉ quan sát, không cố thay đổi cảm giác",
+                    "Nếu thấy căng thẳng → hít vào, thở ra và thả lỏng"
+                ],
+                instructions: [
+                    "Bắt đầu cảm nhận đỉnh đầu và trán",
+                    "Di chuyển xuống mắt, má, hàm",
+                    "Cảm nhận cổ, vai và cánh tay", 
+                    "Chú ý đến ngực, bụng, lưng",
+                    "Kết thúc ở đùi, chân và bàn chân"
+                ]
+            },
+            senses: {
+                title: "Kỹ Thuật 5-4-3-2-1 👁️",
+                duration: 60,
+                description: "Sử dụng 5 giác quan để neo tâm trí vào hiện tại, ngăn chặn lo âu",
+                benefits: [
+                    "Dừng cơn lo âu, hoảng loạn ngay lập tức",
+                    "Đưa tâm trí về thực tại, thoát khỏi suy nghĩ tiêu cực",
+                    "Tăng cường sự tỉnh táo và tập trung",
+                    "Rất hữu ích trong tình huống stress cao"
+                ],
+                guide: [
+                    "Kỹ thuật 'grounding' - neo tâm trí vào hiện tại",
+                    "Làm từ từ, tập trung hoàn toàn vào từng bước",
+                    "Nói to hoặc thầm tên của những gì bạn nhận biết",
+                    "Nếu không đủ (vd: chỉ có 3 âm thanh) → lặp lại", 
+                    "Mục tiêu: chuyển focus khỏi lo âu về giác quan"
+                ],
+                instructions: [
+                    "Tìm 5 thứ bạn nhìn thấy (màu sắc, hình dạng...)",
+                    "Chạm 4 thứ khác nhau (mặt bàn, quần áo...)",
+                    "Lắng nghe 3 âm thanh (máy lạnh, xe cộ...)",
+                    "Ngửi 2 mùi hương (nước hoa, không khí...)",
+                    "Nếm 1 vị trong miệng (nước bọt, kẹo cao su...)"
+                ]
+            },
+            gratitude: {
+                title: "Biết Ơn 🙏",
+                duration: 60,
+                description: "Tập trung vào những điều tích cực để cải thiện tâm trạng và quan điểm sống",
+                benefits: [
+                    "Tăng hormone hạnh phúc (serotonin, dopamine)",
+                    "Giảm trầm cảm và tăng lòng biết ơn",
+                    "Cải thiện mối quan hệ và sự lạc quan",
+                    "Tăng khả năng chống chọi với stress"
+                ],
+                guide: [
+                    "Không cần những điều to lớn - điều nhỏ cũng quý giá",
+                    "Cảm nhận thực sự, không chỉ nghĩ suông",
+                    "Có thể là người, sự việc, hay chính bản thân",
+                    "Tự hỏi 'Điều gì làm cuộc sống tôi dễ dàng hơn?'",
+                    "Kết thúc bằng lời cảm ơn đến chính mình"
+                ],
+                instructions: [
+                    "Nghĩ về 1 người đã giúp đỡ bạn gần đây",
+                    "Nhớ lại 1 khoảnh khắc vui trong ngày",
+                    "Biết ơn cơ thể đã hoạt động tốt", 
+                    "Cảm ơn những tiện nghi xung quanh (nước, điện...)",
+                    "Gửi lời cảm ơn đến chính bạn vì đã chăm sóc bản thân"
+                ]
+            }
+        };
+
+        let mindfulnessTimer;
+        let mindfulnessTimeLeft;
+        let currentMindfulness;
+
+        function startMindfulness(type) {
+            currentMindfulness = mindfulnessExercises[type];
+            
+            // Show guide first
+            document.getElementById('guideTitle').textContent = currentMindfulness.title;
+            document.getElementById('guideDescription').textContent = currentMindfulness.description;
+            
+            // Populate benefits
+            const benefitsList = document.getElementById('guideBenefits');
+            benefitsList.innerHTML = '';
+            currentMindfulness.benefits.forEach(benefit => {
+                const li = document.createElement('li');
+                li.textContent = benefit;
+                benefitsList.appendChild(li);
+            });
+            
+            // Populate guide steps
+            const stepsList = document.getElementById('guideSteps');
+            stepsList.innerHTML = '';
+            currentMindfulness.guide.forEach(step => {
+                const li = document.createElement('li');
+                li.textContent = step;
+                stepsList.appendChild(li);
+            });
+            
+            // Show the practice screen
+            document.getElementById('mindfulnessPractice').style.display = 'block';
+            document.getElementById('mindfulnessGuide').style.display = 'block';
+            document.getElementById('mindfulnessSession').style.display = 'none';
+        }
+
+        function startMindfulnessPractice() {
+            // Setup session screen
+            document.getElementById('sessionTitle').textContent = currentMindfulness.title;
+            
+            const minutes = Math.floor(currentMindfulness.duration / 60);
+            const seconds = currentMindfulness.duration % 60;
+            document.getElementById('mindfulnessTimer').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            document.getElementById('mindfulnessInstruction').textContent = 
+                currentMindfulness.instructions[0];
+            
+            // Switch to session view
+            document.getElementById('mindfulnessGuide').style.display = 'none';
+            document.getElementById('mindfulnessSession').style.display = 'block';
+            document.getElementById('mindfulnessBtn').textContent = 'Bắt Đầu';
+        }
+
+        function backToMindfulnessMenu() {
+            document.getElementById('mindfulnessPractice').style.display = 'none';
+        }
+
+        function startMindfulnessTimer() {
+            const btn = document.getElementById('mindfulnessBtn');
+            const circle = document.getElementById('mindfulnessCircle');
+            
+            if (btn.textContent === 'Bắt Đầu') {
+                mindfulnessTimeLeft = currentMindfulness.duration;
+                btn.textContent = 'Dừng';
+                circle.classList.add('active');
+                runMindfulnessTimer();
+            } else {
+                clearInterval(mindfulnessTimer);
+                btn.textContent = 'Bắt Đầu';
+                circle.classList.remove('active');
+            }
+        }
+
+        function runMindfulnessTimer() {
+            let instructionIndex = 0;
+            const instructionInterval = Math.floor(currentMindfulness.duration / currentMindfulness.instructions.length);
+            
+            mindfulnessTimer = setInterval(() => {
+                mindfulnessTimeLeft--;
+                const minutes = Math.floor(mindfulnessTimeLeft / 60);
+                const seconds = mindfulnessTimeLeft % 60;
+                document.getElementById('mindfulnessTimer').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Change instruction
+                const elapsed = currentMindfulness.duration - mindfulnessTimeLeft;
+                const newInstructionIndex = Math.floor(elapsed / instructionInterval);
+                if (newInstructionIndex < currentMindfulness.instructions.length && newInstructionIndex !== instructionIndex) {
+                    instructionIndex = newInstructionIndex;
+                    document.getElementById('mindfulnessInstruction').textContent = 
+                        currentMindfulness.instructions[instructionIndex];
+                }
+                
+                if (mindfulnessTimeLeft <= 0) {
+                    clearInterval(mindfulnessTimer);
+                    endMindfulness();
+                }
+            }, 1000);
+        }
+
+        function endMindfulness() {
+            clearInterval(mindfulnessTimer);
+            
+            // Count completed mindfulness session
+            appData.mindfulnessCompleted++;
+            updateStats();
+            
+            const btn = document.getElementById('mindfulnessBtn');
+            const circle = document.getElementById('mindfulnessCircle');
+            
+            btn.textContent = '✅ Hoàn thành!';
+            btn.style.background = '#22c55e';
+            circle.classList.remove('active');
+            
+            document.getElementById('mindfulnessInstruction').textContent = 
+                'Tuyệt vời! Bạn đã hoàn thành bài tập chánh niệm.';
+            
+            setTimeout(() => {
+                btn.textContent = 'Bắt Đầu';
+                btn.style.background = '';
+                document.getElementById('mindfulnessPractice').style.display = 'none';
+                document.getElementById('mindfulnessGuide').style.display = 'block';
+                document.getElementById('mindfulnessSession').style.display = 'none';
+                showScreen('home');
+            }, 3000);
+        }
+        // Hàm tính âm lịch đơn giản
+
+        function updateDateDisplay() {
+            const now = new Date();
+            const days = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
+            
+            // Dương lịch
+            const dayName = days[now.getDay()];
+            const date = now.getDate();
+            const month = now.getMonth() + 1;
+            const year = now.getFullYear();
+            const solarDate = `${dayName}, ${date}/${month}/${year}`;
+            
+            // Âm lịch sử dụng thư viện
+            try {
+                const solar = Lunar.Solar.fromDate(now);
+                const lunar = solar.getLunar();
+                const lunarDate = `${lunar.getDay()} tháng ${lunar.getMonthInChinese()} ${lunar.getYear()}`;
+                
+                document.getElementById('solarDate').textContent = solarDate;
+                document.getElementById('lunarDate').textContent = `🌙 ${lunarDate}`;
+            } catch (error) {
+                // Fallback nếu thư viện lỗi
+                document.getElementById('solarDate').textContent = solarDate;
+                document.getElementById('lunarDate').textContent = `🌙 Âm lịch không khả dụng`;
+            }
+        }
+        // Initialize app on page load so solar & lunar dates render
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                try { loadData(); } catch (e) { console.error('Init error:', e); }
+            });
+        } else {
+            try { loadData(); } catch (e) { console.error('Init error:', e); }
+        }
+        // Simple service worker for offline functionality
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:application/javascript,console.log("SW registered");');
+        }
+    </script>
+</body>
+</html>
